@@ -1,0 +1,83 @@
+name: Deploy to GitHub Pages
+
+# Deploys the static Betbot site (root index.html + /dashboard) to GitHub Pages.
+# The repo is a plain static site (no package.json / build step detected), so we
+# publish the repository root directly. Both the main app and the monitoring
+# dashboard are therefore reachable ( / and /dashboard/ ).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# Permissions required for the Pages deployment via OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two Pages deployments at once; let in-flight deploys finish.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build static site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Plain static site: no build step. If a package.json with a build script
+      # is added later, replace this block with a Node setup + `npm ci && npm run build`
+      # and point the upload path at the build output (e.g. ./dist or ./build).
+      - name: Prepare artifact directory
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          # Copy everything except VCS / CI internals into the publish dir.
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='_site' \
+            ./ _site/
+          # Guarantee the dashboard is present at /dashboard/index.html.
+          mkdir -p _site/dashboard
+          cp -f dashboard/index.html _site/dashboard/index.html
+          echo "Published files:"
+          find _site -maxdepth 2 -type f | sort
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Write run summary
+        if: always()
+        run: |
+          {
+            echo "## GitHub Pages Deployment"
+            echo ""
+            echo "- **Status:** ${{ job.status }}"
+            echo "- **Live URL:** ${{ steps.deployment.outputs.page_url }}"
+            echo "- **Dashboard:** ${{ steps.deployment.outputs.page_url }}dashboard/"
+            echo "- **Commit:** \`${{ github.sha }}\`"
+            echo "- **Triggered by:** ${{ github.event_name }}"
+          } >> "$GITHUB_STEP_SUMMARY"
