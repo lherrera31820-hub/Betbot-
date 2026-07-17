@@ -32,7 +32,8 @@ from config import (BANKROLL, MIN_PRIOR_GAMES, ELO_K, ELO_HFA, KELLY_FRACTION)
 from features import (fetch_pitcher_stats, build_feature_vector, LEAGUE_AVG,
                        get_park_factor, get_umpire_factor)
 from model import (train_models, load_models, predict_proba_ensemble,
-                   EloTracker, combined_probability, FEATURE_COLS)
+                   EloTracker, combined_probability, heuristic_probability,
+                   FEATURE_COLS)
 from odds import fetch_live_odds, find_ev_bets
 from alerts import send_alert
 from tracker import log_bets, update_results, print_summary, get_performance_stats
@@ -313,12 +314,20 @@ def run_pipeline():
         # Elo prediction
         p_elo = elo.predict(g['home_id'], g['away_id'])
 
-        # Ensemble prediction (fallback to Elo-only if models not trained yet)
+        # Ensemble prediction when a trained artifact exists AND we have enough
+        # history; otherwise fall back to a per-game heuristic baseline.
+        #
+        # ROOT-CAUSE NOTE: the old fallback here was `p_final = p_elo`. On a cold
+        # start there is no model_state.pkl and no Elo history, so every team is
+        # rated 1500 and elo.predict() returns the SAME home-field-advantage-only
+        # value (~0.599) for every game -> that produced the "every pick 59.9% /
+        # HOME" bug. heuristic_probability() mixes in real per-game features so
+        # predictions vary by matchup even before a real model is trained.
         if model_state and feats.get('home_games', 0) >= MIN_PRIOR_GAMES:
             p_ens = float(predict_proba_ensemble([feats], model_state)[0])
             p_final = combined_probability(p_ens, p_elo)
         else:
-            p_final = p_elo
+            p_final = heuristic_probability(feats, p_elo)
 
         predictions.append({
             'home_team':    g['home_name'],
