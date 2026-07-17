@@ -77,3 +77,31 @@ watches the pipeline two ways:
 
 Browse active alerts:
 [issues labeled `pages-alert`](https://github.com/lherrera31820-hub/Betbot-/issues?q=is%3Aissue+label%3Apages-alert).
+
+## Betting Model & Daily Automation
+
+The `model/` directory contains an MLB moneyline prediction pipeline: it engineers
+pitcher/bullpen/park features, blends an ensemble (logistic regression + gradient
+boosting + random forest) with an Elo tracker, removes bookmaker vig to detect
+positive-EV bets, and sizes them with Quarter Kelly.
+
+**Daily flow:** the [`daily-picks.yml`](.github/workflows/daily-picks.yml) workflow
+runs every day at 13:00 UTC (and on demand via *workflow_dispatch*). It executes
+`python model/daily_runner.py`, which writes the day's +EV picks, bankroll state,
+and performance stats to `data/picks.json` at the repo root. If that file changes,
+the workflow commits it to `main`, which triggers the existing `deploy-pages.yml`
+workflow to auto-redeploy the site.
+
+**Setup — add the Odds API key:** real market odds come from
+[The Odds API](https://the-odds-api.com), which needs a key. Add it as a repo
+secret named `ODDS_API_KEY`:
+
+- Via UI: **Settings → Secrets and variables → Actions → New repository secret**.
+- Via CLI: `gh secret set ODDS_API_KEY`.
+
+Without the secret the runner is resilient: it writes
+`data/picks.json` as `{"status": "no_data", "reason": "..."}` and exits 0 (no crash,
+no bets). The MLB Stats API used for schedules/stats is free and keyless.
+
+> Note: any accuracy/ROI claims originate from the source `betting-module-` repo and
+> are unverified here.
