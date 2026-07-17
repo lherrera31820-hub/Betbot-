@@ -1,0 +1,48 @@
+name: Daily Picks
+
+# Generates data/picks.json each day and commits it to main, which triggers
+# the existing deploy-pages.yml workflow to redeploy the site.
+#
+# NOTE: Set ODDS_API_KEY as a repo secret (Settings -> Secrets and variables ->
+# Actions, or `gh secret set ODDS_API_KEY`) for real market data. Without it the
+# runner writes a {"status": "no_data"} picks.json and still exits 0.
+
+on:
+  schedule:
+    - cron: '0 13 * * *'   # 13:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-picks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r model/requirements.txt
+
+      - name: Generate daily picks
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python model/daily_runner.py
+
+      - name: Commit picks.json if changed
+        run: |
+          if [ -n "$(git status --porcelain data/picks.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add data/picks.json
+            git commit -m "chore: update daily picks.json"
+            git push
+          else
+            echo "No change to data/picks.json — nothing to commit."
+          fi
