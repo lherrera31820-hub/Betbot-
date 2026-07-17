@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   generate-picks:
@@ -46,3 +47,12 @@ jobs:
           else
             echo "No change to data/picks.json — nothing to commit."
           fi
+
+      - name: Trigger Pages redeploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Pushes made with the built-in GITHUB_TOKEN don't trigger other
+          # push-based workflows (loop prevention), so explicitly kick off
+          # the deploy via the API using the workflow_dispatch trigger.
+          gh workflow run deploy-pages.yml --repo ${{ github.repository }} --ref main
