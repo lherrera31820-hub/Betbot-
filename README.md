@@ -105,3 +105,19 @@ no bets). The MLB Stats API used for schedules/stats is free and keyless.
 
 > Note: any accuracy/ROI claims originate from the source `betting-module-` repo and
 > are unverified here.
+
+### Known-issue note: cold-start predictions (fixed)
+
+Earlier every pick came out identical — `model_prob: 59.9` and `bet_side: HOME` for
+all games. Root cause: no trained model artifact (`model_state.pkl`) and no Elo
+history are committed to the repo, so on each run the ensemble was skipped and the
+code fell back to `p_final = p_elo`. With every team at the default 1500 Elo rating,
+`EloTracker.predict()` returns only the home-field-advantage value — `1/(1+10^(-70/400))
+≈ 0.599` — for *every* matchup, which then always beats the away side on EV (hence
+always HOME).
+
+Fix: `daily_runner.py` now falls back to `model.heuristic_probability()` instead of
+raw Elo. That baseline layers real per-game feature differentials (starter ERA/FIP,
+bullpen, win%, run diff, rest, park) onto the Elo log-odds, so probabilities vary by
+matchup even before a real model exists. Replace it with the trained ensemble by
+generating `model_state.pkl` via `train_models()` on historical data.
