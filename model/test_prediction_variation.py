@@ -9,7 +9,7 @@ model_prob=59.9 / bet_side=HOME; after the fix both vary.
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from model import EloTracker, heuristic_probability, load_models
+from model import EloTracker, heuristic_probability
 from odds import find_ev_bets
 from config import ELO_K, ELO_HFA
 
@@ -48,7 +48,9 @@ def mock_odds(home, away):
 
 
 def main():
-    assert load_models() is None, "test assumes cold start (no model_state.pkl)"
+    # This test exercises the heuristic fallback path (heuristic_probability)
+    # directly, so it is valid whether or not a trained model_state.pkl exists.
+    # It proves the fallback still produces per-matchup variation.
     elo = EloTracker(k=ELO_K, hfa=ELO_HFA)   # empty ratings -> all teams 1500
 
     predictions, live_odds = [], []

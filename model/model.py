@@ -25,7 +25,11 @@ FEATURE_COLS = [
     'series_game_num',
 ]
 
-MODEL_PATH = 'model_state.pkl'
+# Artifacts live at the repo root so the path resolves whether the daily runner
+# is invoked as `python model/daily_runner.py` (cwd = repo root, as in CI) or
+# from inside model/.
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(_REPO_ROOT, 'model_state.pkl')
 
 
 def train_models(feature_df, label_col='home_win'):
@@ -68,7 +72,11 @@ def predict_proba_ensemble(feature_dicts, state):
     """
     import pandas as pd
     df = pd.DataFrame(feature_dicts)
-    X = df[FEATURE_COLS].values
+    # The trained artifact records the exact feature columns it was fit on
+    # (train_models.py trains on a team-form subset). Fall back to the full
+    # FEATURE_COLS for legacy artifacts that predate feature_cols.
+    cols = state.get('feature_cols', FEATURE_COLS)
+    X = df[cols].values
     Xs = state['scaler'].transform(X)
     p_lr = state['lr'].predict_proba(Xs)[:, 1]
     p_gb = state['gb'].predict_proba(X)[:, 1]
