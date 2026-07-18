@@ -252,7 +252,8 @@ def calibration_table(y_true, y_prob, n_bins=10):
 def train(df):
     """Time-split train/test, fit the ensemble, report held-out metrics."""
     df = df[(df['home_games'] >= MIN_HISTORY) &
-            (df['away_games'] >= MIN_HISTORY)].reset_index(drop=True)
+            (df['away_games'] >= MIN_HISTORY)].copy()
+    df['date'] = pd.to_datetime(df['date'])
     df = df.sort_values('date').reset_index(drop=True)
 
     n = len(df)

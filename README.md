@@ -85,6 +85,18 @@ pitcher/bullpen/park features, blends an ensemble (logistic regression + gradien
 boosting + random forest) with an Elo tracker, removes bookmaker vig to detect
 positive-EV bets, and sizes them with Quarter Kelly.
 
+**A real trained ensemble is now the primary prediction path.** `model/train_models.py`
+bulk-fetches the 2026 season schedule + final scores (one MLB Stats API call per
+month, zero per-game calls), computes team-form features in-memory, and trains the
+logistic-regression + gradient-boosting + random-forest ensemble on real outcomes
+with a chronological train/test split. The trained artifact (`model_state.pkl`) plus
+warm Elo/rolling state ship in the repo, so `daily_runner.py` uses the ensemble
+directly; `heuristic_probability()` remains only as a fallback if the artifact is
+ever missing. Held-out metrics, the calibration table, the team-form-only limitation,
+and why historical ROI is not reported are documented in
+[`model/BACKTEST_RESULTS.md`](model/BACKTEST_RESULTS.md). Real ROI/CLV accrues going
+forward via `model/tracker.py`.
+
 **Daily flow:** the [`daily-picks.yml`](.github/workflows/daily-picks.yml) workflow
 runs every day at 13:00 UTC (and on demand via *workflow_dispatch*). It executes
 `python model/daily_runner.py`, which writes the day's +EV picks, bankroll state,
@@ -119,5 +131,6 @@ always HOME).
 Fix: `daily_runner.py` now falls back to `model.heuristic_probability()` instead of
 raw Elo. That baseline layers real per-game feature differentials (starter ERA/FIP,
 bullpen, win%, run diff, rest, park) onto the Elo log-odds, so probabilities vary by
-matchup even before a real model exists. Replace it with the trained ensemble by
-generating `model_state.pkl` via `train_models()` on historical data.
+matchup even before a real model exists. The trained ensemble described above has
+since replaced this baseline as the primary path (`model_state.pkl` is committed);
+the heuristic now only runs if that artifact is missing.
