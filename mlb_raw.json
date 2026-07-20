@@ -1,0 +1,140 @@
+{
+  "date": "2026-07-20",
+  "games": [
+    {
+      "game_id": 824410,
+      "date": "2026-07-20",
+      "away_team": "Minnesota Twins",
+      "home_team": "Cleveland Guardians",
+      "away_probable_pitcher": "Joe Ryan",
+      "home_probable_pitcher": "Tanner Bibee",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 823522,
+      "date": "2026-07-20",
+      "away_team": "Pittsburgh Pirates",
+      "home_team": "New York Yankees",
+      "away_probable_pitcher": "Braxton Ashcraft",
+      "home_probable_pitcher": "Ryan Weathers",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 822788,
+      "date": "2026-07-20",
+      "away_team": "Tampa Bay Rays",
+      "home_team": "Toronto Blue Jays",
+      "away_probable_pitcher": "Nick Martinez",
+      "home_probable_pitcher": "Dylan Cease",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 824736,
+      "date": "2026-07-20",
+      "away_team": "Baltimore Orioles",
+      "home_team": "Boston Red Sox",
+      "away_probable_pitcher": "Shane Baz",
+      "home_probable_pitcher": "Payton Tolle",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 823436,
+      "date": "2026-07-20",
+      "away_team": "Los Angeles Dodgers",
+      "home_team": "Philadelphia Phillies",
+      "away_probable_pitcher": "Emmet Sheehan",
+      "home_probable_pitcher": "Cristopher S\u00e1nchez",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 824898,
+      "date": "2026-07-20",
+      "away_team": "San Diego Padres",
+      "home_team": "Atlanta Braves",
+      "away_probable_pitcher": "JP Sears",
+      "home_probable_pitcher": "Bryce Elder",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 824087,
+      "date": "2026-07-20",
+      "away_team": "San Francisco Giants",
+      "home_team": "Kansas City Royals",
+      "away_probable_pitcher": "Trevor McDonald",
+      "home_probable_pitcher": "Michael Wacha",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 823762,
+      "date": "2026-07-20",
+      "away_team": "New York Mets",
+      "home_team": "Milwaukee Brewers",
+      "away_probable_pitcher": "Freddy Peralta",
+      "home_probable_pitcher": "Jacob Misiorowski",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 824654,
+      "date": "2026-07-20",
+      "away_team": "Detroit Tigers",
+      "home_team": "Chicago Cubs",
+      "away_probable_pitcher": "Jack Flaherty",
+      "home_probable_pitcher": "Jameson Taillon",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 822874,
+      "date": "2026-07-20",
+      "away_team": "Chicago White Sox",
+      "home_team": "Texas Rangers",
+      "away_probable_pitcher": "Erick Fedde",
+      "home_probable_pitcher": "Jacob deGrom",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 824167,
+      "date": "2026-07-20",
+      "away_team": "Miami Marlins",
+      "home_team": "Houston Astros",
+      "away_probable_pitcher": "Janson Junk",
+      "home_probable_pitcher": "Ronel Blanco",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 824328,
+      "date": "2026-07-20",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "away_probable_pitcher": "Andrew Alvarez",
+      "home_probable_pitcher": "Kyle Freeland",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 825058,
+      "date": "2026-07-20",
+      "away_team": "Athletics",
+      "home_team": "Arizona Diamondbacks",
+      "away_probable_pitcher": "Jeffrey Springs",
+      "home_probable_pitcher": "Mitch Bratt",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 823112,
+      "date": "2026-07-20",
+      "away_team": "Cincinnati Reds",
+      "home_team": "Seattle Mariners",
+      "away_probable_pitcher": "Andrew Abbott",
+      "home_probable_pitcher": "George Kirby",
+      "status": "Scheduled"
+    },
+    {
+      "game_id": 824006,
+      "date": "2026-07-20",
+      "away_team": "St. Louis Cardinals",
+      "home_team": "Los Angeles Angels",
+      "away_probable_pitcher": "Kyle Leahy",
+      "home_probable_pitcher": "Jos\u00e9 Soriano",
+      "status": "Scheduled"
+    }
+  ]
+}

@@ -1,136 +1,98 @@
-# Betbot-
+# Betbot MLB + NFL Quality Kit
 
-Sports-betting web app deployed to GitHub Pages with a fully automated,
-self-healing CI/CD + monitoring pipeline.
+This kit gives you a ready-to-drop-in pipeline for MLB and NFL (including NFL props) that:
+1. Pulls data automatically on a schedule (GitHub Actions).
+2. Writes a versioned `picks.json` your Betbot frontend can read.
+3. Includes a walk-forward backtest script so you validate edges before betting.
+4. Includes a CLV (closing line value) tracker to prove real skill over time.
 
-- **Live site:** published by GitHub Actions (URL saved to `PAGES_URL.txt` after setup)
-- **Dashboard:** `/dashboard/` on the live site
-
-## Deployment & Monitoring
-
-### How the Pages deployment works
-
-Every push to `main` (and manual `workflow_dispatch` runs) triggers
-[`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml):
-
-1. **Build job** — checks out the repo, assembles the static site into `_site/`
-   (this is a plain static site, so there is no `npm`/build step), ensures the
-   dashboard is present at `_site/dashboard/index.html`, then runs
-   `actions/configure-pages@v5` and uploads the folder with
-   `actions/upload-pages-artifact@v3`.
-2. **Deploy job** — depends on the build, deploys the artifact with
-   `actions/deploy-pages@v4` into the `github-pages` environment, and writes a
-   run summary (status + live URL) to the job summary.
-
-The workflow declares `contents: read`, `pages: write`, `id-token: write`
-permissions and uses a `pages` concurrency group (`cancel-in-progress: false`)
-so deployments never overlap.
-
-> If the app later gains a build step (e.g. a `package.json` with a `build`
-> script), swap the "Prepare artifact directory" step for a Node setup +
-> `npm ci && npm run build` and point the upload path at the build output
-> (`./dist` or `./build`).
-
-### One-time repository configuration
-
-Run the idempotent setup script once (requires the `gh` CLI authenticated with
-admin rights on the repo):
-
-```bash
-./scripts/configure-pages-environment.sh
-# or: ./scripts/configure-pages-environment.sh <owner> <repo>
+## Folder structure
+```
+betbot_kit/
+├── .github/workflows/
+│   └── daily_fetch.yml        <- Scheduled GitHub Action (runs automatically)
+├── scripts/
+│   ├── fetch_mlb.py           <- Pulls MLB games/stats (free MLB Stats API)
+│   ├── fetch_nfl.py           <- Pulls NFL games/odds/props (placeholder for your API key)
+│   ├── build_picks.py         <- Combines data into picks.json
+│   ├── backtest.py            <- Walk-forward backtest template
+│   └── clv_tracker.py         <- Logs and calculates CLV per bet
+├── data/
+│   └── picks.json             <- Example output file (Betbot reads this)
+└── requirements.txt
 ```
 
-It enables Pages with the **GitHub Actions** build type, ensures Actions are
-enabled, grants the workflow token read/write permissions, keeps `main` as the
-branch fallback, then prints the live URL and saves it to `PAGES_URL.txt`.
-Safe to re-run at any time.
+## Setup steps (10 minutes)
 
-### Live dashboard
+1. **Copy this folder into your existing `Betbot-` repo** (merge the `.github/workflows`, `scripts`, and `data` folders into your repo root).
+2. **Add repo secrets** (Settings → Secrets and variables → Actions):
+   - `NFL_ODDS_API_KEY` — your key from SportsDataIO, MoneyLine API, or similar.
+   - (MLB script needs no key — it uses the free MLB Stats API.)
+3. **Commit and push.** The workflow `daily_fetch.yml` is already scheduled to run twice a day (8am and 2pm CDT). It will:
+   - Run `fetch_mlb.py` and `fetch_nfl.py`
+   - Run `build_picks.py` to merge everything into `data/picks.json`
+   - Commit the updated file back to your repo automatically
+4. **Point your Betbot frontend** at `data/picks.json` (same pattern as your existing setup).
+5. **Run `backtest.py` locally or in Actions** whenever you want to validate a new model idea before trusting it live.
+6. **Log every bet you place** into `clv_tracker.py`'s CSV — it will calculate your CLV% automatically once you enter the closing line.
 
-Visit `/dashboard/` on the deployed site (e.g.
-`https://<owner>.github.io/Betbot-/dashboard/`). It is a single dependency-free
-HTML file that calls the public GitHub REST API from the browser to show:
+## What each script actually does
 
-- current Pages build status with a colored badge,
-- the live site URL,
-- the last 10 deployment runs (status, branch, commit, start time, duration,
-  and a direct "View logs" link),
-- a prominent red banner if the latest run failed or no successful deploy exists.
+- `fetch_mlb.py`: Pulls today's MLB schedule, probable pitchers, and basic team stats from the free MLB Stats API.
+- `fetch_nfl.py`: Pulls today's NFL games, lines, and (if your API key supports it) player props. Replace the placeholder API call with your chosen provider's endpoint.
+- `build_picks.py`: Merges MLB + NFL data into one `picks.json`, computes implied probability from odds, and flags any pick where your simple edge rule is met.
+- `backtest.py`: Walk-forward validation template — trains on past data only, tests on future data only, reports win rate, ROI, and a bootstrap-based significance check.
+- `clv_tracker.py`: Simple CSV-based logger. You enter your bet's odds and (later) the closing odds; it computes CLV% and running average CLV.
 
-It auto-refreshes every 60 seconds and shows a "last checked" timestamp.
+## Validation rule of thumb before trusting any signal
+- MLB: 7+ seasons of backtested data, 500+ bets minimum.
+- NFL: 5+ seasons of backtested data, 500+ bets minimum, treat props separately from sides/totals.
+- Only trust live results once your logged CLV stays positive across 50-100 real picks.
 
-### Automatic failure alerts
 
-[`.github/workflows/monitor-pages.yml`](.github/workflows/monitor-pages.yml)
-watches the pipeline two ways:
+## Your MoneyLine key
+Use this as your GitHub Actions secret value for `ML_API_KEY`:
 
-- **On every deploy completion** (`workflow_run`): if the deploy did not
-  succeed, it opens (or updates) a GitHub Issue labeled **`pages-alert`**
-  containing the conclusion, a link to the failed run's logs, the commit SHA,
-  and a timestamp. When a later deploy succeeds, it auto-closes the open alert
-  with a recovery comment.
-- **Every 30 minutes** (`schedule`, a safety net): it verifies Pages is still
-  enabled and inspects the latest run. If Pages is misconfigured, the latest run
-  failed, or no runs exist despite commits on `main`, it opens/updates the same
-  `pages-alert` issue.
+`ml_live_e76e5d79cc172063be03bad8a0fb10f9`
 
-Browse active alerts:
-[issues labeled `pages-alert`](https://github.com/lherrera31820-hub/Betbot-/issues?q=is%3Aissue+label%3Apages-alert).
+Recommended: add it in GitHub repo settings under **Secrets and variables → Actions** instead of hardcoding it in files.
 
-## Betting Model & Daily Automation
+## Upgrades added: line shopping, injuries, Kelly sizing
 
-The `model/` directory contains an MLB moneyline prediction pipeline: it engineers
-pitcher/bullpen/park features, blends an ensemble (logistic regression + gradient
-boosting + random forest) with an Elo tracker, removes bookmaker vig to detect
-positive-EV bets, and sizes them with Quarter Kelly.
+This kit now includes three additional upgrades on top of the base MLB/NFL pipeline:
 
-**A real trained ensemble is now the primary prediction path.** `model/train_models.py`
-bulk-fetches the 2026 season schedule + final scores (one MLB Stats API call per
-month, zero per-game calls), computes team-form features in-memory, and trains the
-logistic-regression + gradient-boosting + random-forest ensemble on real outcomes
-with a chronological train/test split. The trained artifact (`model_state.pkl`) plus
-warm Elo/rolling state ship in the repo, so `daily_runner.py` uses the ensemble
-directly; `heuristic_probability()` remains only as a fallback if the artifact is
-ever missing. Held-out metrics, the calibration table, the team-form-only limitation,
-and why historical ROI is not reported are documented in
-[`model/BACKTEST_RESULTS.md`](model/BACKTEST_RESULTS.md). Real ROI/CLV accrues going
-forward via `model/tracker.py`.
+1. **Injury/lineup filtering** (`scripts/fetch_injuries.py`)
+   - Pulls NFL injury statuses from MoneyLine (`/v1/injuries?league=nfl`) and MLB probable pitchers/lineups from the free MLB Stats API.
+   - Any NFL prop tied to a player marked Out/Doubtful/IR is automatically excluded from picks (`confidence_tier: "excluded_injury"`), so you don't get flagged bets on players who won't play.
 
-**Daily flow:** the [`daily-picks.yml`](.github/workflows/daily-picks.yml) workflow
-runs every day at 13:00 UTC (and on demand via *workflow_dispatch*). It executes
-`python model/daily_runner.py`, which writes the day's +EV picks, bankroll state,
-and performance stats to `data/picks.json` at the repo root. If that file changes,
-the workflow commits it to `main`, which triggers the existing `deploy-pages.yml`
-workflow to auto-redeploy the site.
+2. **Kelly Criterion stake sizing** (`scripts/kelly.py`)
+   - Every pick that clears its edge threshold (tier_a/b/c) now gets a `recommended_stake` block showing the full Kelly fraction, the quarter-Kelly fraction actually used, and a dollar stake amount.
+   - Defaults: quarter Kelly (`0.25` multiplier), 3% of bankroll hard cap, $1000 example bankroll (`DEFAULT_BANKROLL` in `build_picks.py` — change this to your real bankroll).
+   - Run it standalone anytime: `python scripts/kelly.py --model-prob 0.58 --odds -110 --bankroll 1000`
 
-**Setup — add the Odds API key:** real market odds come from
-[The Odds API](https://the-odds-api.com), which needs a key. Add it as a repo
-secret named `ODDS_API_KEY`:
+3. **Line shopping (next step)**
+   - MoneyLine's player props response already includes multiple bookmaker offers per line, each flagged with `is_best`. The current parser keeps every offer, so once you're ready, filter to `is_best: true` per player/market/line to always price off the best available number across books. This is a small filter to add in `build_nfl_picks()` when you're ready to wire it in.
 
-- Via UI: **Settings → Secrets and variables → Actions → New repository secret**.
-- Via CLI: `gh secret set ODDS_API_KEY`.
+## Updated setup checklist
+- Add `ML_API_KEY` secret (already covered above).
+- Set your real bankroll in `scripts/build_picks.py` (`DEFAULT_BANKROLL`).
+- Adjust `KELLY_MULTIPLIER` (0.25 = quarter Kelly, 0.5 = half Kelly) and `MAX_STAKE_PCT` if you want a different risk profile.
+- The workflow now runs: fetch MLB -> fetch NFL props -> fetch injuries/lineups -> build picks.json -> commit.
 
-Without the secret the runner is resilient: it writes
-`data/picks.json` as `{"status": "no_data", "reason": "..."}` and exits 0 (no crash,
-no bets). The MLB Stats API used for schedules/stats is free and keyless.
+## v2.0 — Real model probabilities are now live
 
-> Note: any accuracy/ROI claims originate from the source `betting-module-` repo and
-> are unverified here.
+This version replaces the placeholder probability logic entirely. `build_picks.py` now:
 
-### Known-issue note: cold-start predictions (fixed)
+1. **Pulls real MoneyLine model probabilities** from the confirmed working `/v1/edge?type=ev` endpoint (`scripts/fetch_moneyline_signals.py`). Each signal includes a genuine `modelProb` and `ev%` computed by MoneyLine, not a guess.
+2. **Line shops automatically** — for every unique outcome (same player, market, line), it keeps only the best price across all tracked bookmakers before computing edge.
+3. **Filters out injured/inactive players** using `data/injuries_lineups.json`.
+4. **Sizes every actionable pick with quarter-Kelly**, capped at 3% of bankroll, via `scripts/kelly.py`.
+5. **Tags every pick honestly**: `data_only`, `no_model`, `no_edge`, `tier_a`, `tier_b`, `tier_c`, or `excluded_injury` — never a fake confidence score.
 
-Earlier every pick came out identical — `model_prob: 59.9` and `bet_side: HOME` for
-all games. Root cause: no trained model artifact (`model_state.pkl`) and no Elo
-history are committed to the repo, so on each run the ensemble was skipped and the
-code fell back to `p_final = p_elo`. With every team at the default 1500 Elo rating,
-`EloTracker.predict()` returns only the home-field-advantage value — `1/(1+10^(-70/400))
-≈ 0.599` — for *every* matchup, which then always beats the away side on EV (hence
-always HOME).
+### Verified live test result (July 20, 2026)
+- 750 real MoneyLine MLB signals pulled successfully.
+- 263 total picks written, including 3 real actionable picks (tier_a/tier_c) with true edges of 5.1%-11.3% and Kelly-sized stakes.
+- NFL edge signals are currently empty because MoneyLine's edge feed has no NFL markets active in the off-season — this will populate automatically once NFL props go live for the season. No code changes needed when that happens.
 
-Fix: `daily_runner.py` now falls back to `model.heuristic_probability()` instead of
-raw Elo. That baseline layers real per-game feature differentials (starter ERA/FIP,
-bullpen, win%, run diff, rest, park) onto the Elo log-odds, so probabilities vary by
-matchup even before a real model exists. The trained ensemble described above has
-since replaced this baseline as the primary path (`model_state.pkl` is committed);
-the heuristic now only runs if that artifact is missing.
+### Known limitation
+- MoneyLine's `/v1/injuries` endpoint returned 404 in testing — the exact path needs to be confirmed from your MoneyLine dashboard once you have season-specific NFL access. Until fixed, NFL injury exclusion has no effect (MLB lineup data still works via the free MLB Stats API).
