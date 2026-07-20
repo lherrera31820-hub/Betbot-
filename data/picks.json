@@ -1,6 +1,7 @@
 {
   "status": "ok",
-  "generated_at": "2026-07-20T15:57:13Z",
+  "schema_version": "1.1.0",
+  "generated_at": "2026-07-20T16:41:25Z",
   "date_display": "2026-07-20",
   "sport": "MLB",
   "bankroll": 1000.0,
@@ -12,12 +13,16 @@
     "roi": null,
     "avg_clv": null
   },
+  "bet_type_mode": "both",
   "picks": [
     {
       "home_team": "Texas Rangers",
       "away_team": "Chicago White Sox",
       "bet_side": "AWAY",
       "bet_team": "Chicago White Sox",
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
       "edge_pct": 28.87,
       "model_prob": 52.6,
       "market_prob": 39.1,
@@ -27,45 +32,72 @@
       "home_pitcher": "Jacob deGrom",
       "away_pitcher": "Erick Fedde",
       "venue": "Globe Life Field",
-      "tier": "high"
+      "tier": "high",
+      "sos_raw": 0.49,
+      "sos_second_order": 0.4999,
+      "win_pct_adjusted": 0.5163,
+      "common_opponents_score": 0.4742,
+      "recent_form_weighted": 0.6108,
+      "model_prob_final": 0.529
     },
     {
       "home_team": "Chicago Cubs",
       "away_team": "Detroit Tigers",
       "bet_side": "HOME",
       "bet_team": "Chicago Cubs",
-      "edge_pct": 22.56,
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
+      "edge_pct": 21.49,
       "model_prob": 63.6,
       "market_prob": 50.3,
-      "best_odds": -108,
+      "best_odds": -110,
       "best_book": "BetOnline.ag",
       "kelly_bet": 50.0,
       "home_pitcher": "Jameson Taillon",
       "away_pitcher": "Jack Flaherty",
       "venue": "Wrigley Field",
-      "tier": "high"
+      "tier": "high",
+      "sos_raw": 0.4973,
+      "sos_second_order": 0.5025,
+      "win_pct_adjusted": 0.5598,
+      "common_opponents_score": 0.5877,
+      "recent_form_weighted": 0.6396,
+      "model_prob_final": 0.6141
     },
     {
       "home_team": "Cleveland Guardians",
       "away_team": "Minnesota Twins",
       "bet_side": "HOME",
       "bet_team": "Cleveland Guardians",
-      "edge_pct": 17.81,
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
+      "edge_pct": 20.66,
       "model_prob": 56.9,
       "market_prob": 47.1,
-      "best_odds": 107,
-      "best_book": "BetOnline.ag",
-      "kelly_bet": 41.61,
+      "best_odds": 112,
+      "best_book": "FanDuel",
+      "kelly_bet": 46.11,
       "home_pitcher": "Tanner Bibee",
       "away_pitcher": "Joe Ryan",
       "venue": "Progressive Field",
-      "tier": "high"
+      "tier": "high",
+      "sos_raw": 0.5028,
+      "sos_second_order": 0.4966,
+      "win_pct_adjusted": 0.5286,
+      "common_opponents_score": 0.576,
+      "recent_form_weighted": 0.6893,
+      "model_prob_final": 0.58
     },
     {
       "home_team": "Toronto Blue Jays",
       "away_team": "Tampa Bay Rays",
       "bet_side": "AWAY",
       "bet_team": "Tampa Bay Rays",
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
       "edge_pct": 14.62,
       "model_prob": 47.2,
       "market_prob": 40.3,
@@ -75,13 +107,22 @@
       "home_pitcher": "Dylan Cease",
       "away_pitcher": "Nick Martinez",
       "venue": "Rogers Centre",
-      "tier": "high"
+      "tier": "high",
+      "sos_raw": 0.4958,
+      "sos_second_order": 0.5004,
+      "win_pct_adjusted": 0.5915,
+      "common_opponents_score": 0.3855,
+      "recent_form_weighted": 0.5173,
+      "model_prob_final": 0.4897
     },
     {
       "home_team": "New York Yankees",
       "away_team": "Pittsburgh Pirates",
       "bet_side": "HOME",
       "bet_team": "New York Yankees",
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
       "edge_pct": 13.74,
       "model_prob": 59.6,
       "market_prob": 52.0,
@@ -91,29 +132,47 @@
       "home_pitcher": "Ryan Weathers",
       "away_pitcher": "Braxton Ashcraft",
       "venue": "Yankee Stadium",
-      "tier": "high"
+      "tier": "high",
+      "sos_raw": 0.4857,
+      "sos_second_order": 0.4997,
+      "win_pct_adjusted": 0.5482,
+      "common_opponents_score": 0.3823,
+      "recent_form_weighted": 0.7089,
+      "model_prob_final": 0.5713
     },
     {
       "home_team": "Boston Red Sox",
       "away_team": "Baltimore Orioles",
       "bet_side": "AWAY",
       "bet_team": "Baltimore Orioles",
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
       "edge_pct": 11.91,
       "model_prob": 47.0,
-      "market_prob": 42.6,
+      "market_prob": 41.6,
       "best_odds": 138,
       "best_book": "BetOnline.ag",
       "kelly_bet": 21.57,
       "home_pitcher": "Payton Tolle",
       "away_pitcher": "Shane Baz",
       "venue": "Fenway Park",
-      "tier": "high"
+      "tier": "high",
+      "sos_raw": 0.4998,
+      "sos_second_order": 0.4991,
+      "win_pct_adjusted": 0.474,
+      "common_opponents_score": 0.5067,
+      "recent_form_weighted": 0.7492,
+      "model_prob_final": 0.5182
     },
     {
       "home_team": "Milwaukee Brewers",
       "away_team": "New York Mets",
       "bet_side": "AWAY",
       "bet_team": "New York Mets",
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
       "edge_pct": 7.63,
       "model_prob": 37.6,
       "market_prob": 34.4,
@@ -123,45 +182,72 @@
       "home_pitcher": "Jacob Misiorowski",
       "away_pitcher": "Freddy Peralta",
       "venue": "American Family Field",
-      "tier": "high"
+      "tier": "high",
+      "sos_raw": 0.4999,
+      "sos_second_order": 0.5025,
+      "win_pct_adjusted": 0.4123,
+      "common_opponents_score": 0.5531,
+      "recent_form_weighted": 0.3425,
+      "model_prob_final": 0.4048
     },
     {
       "home_team": "Colorado Rockies",
       "away_team": "Washington Nationals",
       "bet_side": "HOME",
       "bet_team": "Colorado Rockies",
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
       "edge_pct": 5.81,
       "model_prob": 50.6,
-      "market_prob": 46.5,
+      "market_prob": 47.0,
       "best_odds": 109,
       "best_book": "BetUS",
       "kelly_bet": 13.33,
       "home_pitcher": "Kyle Freeland",
       "away_pitcher": "Andrew Alvarez",
       "venue": "Coors Field",
-      "tier": "high"
+      "tier": "high",
+      "sos_raw": 0.5089,
+      "sos_second_order": 0.5003,
+      "win_pct_adjusted": 0.4069,
+      "common_opponents_score": 0.3549,
+      "recent_form_weighted": 0.3209,
+      "model_prob_final": 0.4357
     },
     {
       "home_team": "Philadelphia Phillies",
       "away_team": "Los Angeles Dodgers",
       "bet_side": "AWAY",
       "bet_team": "Los Angeles Dodgers",
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
       "edge_pct": 4.61,
       "model_prob": 46.3,
-      "market_prob": 44.1,
+      "market_prob": 42.7,
       "best_odds": 126,
       "best_book": "BetOnline.ag",
       "kelly_bet": 10.0,
       "home_pitcher": "Cristopher S\u00e1nchez",
       "away_pitcher": "Emmet Sheehan",
       "venue": "Citizens Bank Park",
-      "tier": "medium"
+      "tier": "medium",
+      "sos_raw": 0.4881,
+      "sos_second_order": 0.5026,
+      "win_pct_adjusted": 0.617,
+      "common_opponents_score": 0.5062,
+      "recent_form_weighted": 0.3516,
+      "model_prob_final": 0.4836
     },
     {
       "home_team": "Seattle Mariners",
       "away_team": "Cincinnati Reds",
       "bet_side": "HOME",
       "bet_team": "Seattle Mariners",
+      "bet_category": "single",
+      "bet_type": "moneyline",
+      "status": "pending",
       "edge_pct": 3.73,
       "model_prob": 60.1,
       "market_prob": 56.3,
@@ -171,7 +257,1060 @@
       "home_pitcher": "George Kirby",
       "away_pitcher": "Andrew Abbott",
       "venue": "T-Mobile Park",
-      "tier": "medium"
+      "tier": "medium",
+      "sos_raw": 0.487,
+      "sos_second_order": 0.4988,
+      "win_pct_adjusted": 0.4818,
+      "common_opponents_score": 0.5592,
+      "recent_form_weighted": 0.3603,
+      "model_prob_final": 0.5348
+    }
+  ],
+  "combinations": [
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 368,
+      "implied_prob": 0.2137,
+      "model_prob": 0.3345,
+      "edge": 0.1209,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+          "game_id": "Detroit_Tigers-at-Chicago_Cubs",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago Cubs HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.636,
+          "edge": 0.21489999999999998,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 419,
+      "implied_prob": 0.1927,
+      "model_prob": 0.2993,
+      "edge": 0.1066,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+          "game_id": "Minnesota_Twins-at-Cleveland_Guardians",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Cleveland Guardians HOME",
+          "line": null,
+          "odds": 112,
+          "model_prob": 0.569,
+          "edge": 0.2066,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 495,
+      "implied_prob": 0.1681,
+      "model_prob": 0.2483,
+      "edge": 0.0802,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+          "game_id": "Tampa_Bay_Rays-at-Toronto_Blue_Jays",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Tampa Bay Rays AWAY",
+          "line": null,
+          "odds": 143,
+          "model_prob": 0.47200000000000003,
+          "edge": 0.1462,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 368,
+      "implied_prob": 0.2137,
+      "model_prob": 0.3135,
+      "edge": 0.0998,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+          "game_id": "Pittsburgh_Pirates-at-New_York_Yankees",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "New York Yankees HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.596,
+          "edge": 0.1374,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 483,
+      "implied_prob": 0.1715,
+      "model_prob": 0.2472,
+      "edge": 0.0757,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+          "game_id": "Baltimore_Orioles-at-Boston_Red_Sox",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Baltimore Orioles AWAY",
+          "line": null,
+          "odds": 138,
+          "model_prob": 0.47,
+          "edge": 0.1191,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME+MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 305,
+      "implied_prob": 0.2469,
+      "model_prob": 0.3619,
+      "edge": 0.115,
+      "legs": [
+        {
+          "leg_id": "MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+          "game_id": "Detroit_Tigers-at-Chicago_Cubs",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago Cubs HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.636,
+          "edge": 0.21489999999999998,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+          "game_id": "Minnesota_Twins-at-Cleveland_Guardians",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Cleveland Guardians HOME",
+          "line": null,
+          "odds": 112,
+          "model_prob": 0.569,
+          "edge": 0.2066,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME+MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 364,
+      "implied_prob": 0.2155,
+      "model_prob": 0.3002,
+      "edge": 0.0847,
+      "legs": [
+        {
+          "leg_id": "MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+          "game_id": "Detroit_Tigers-at-Chicago_Cubs",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago Cubs HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.636,
+          "edge": 0.21489999999999998,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+          "game_id": "Tampa_Bay_Rays-at-Toronto_Blue_Jays",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Tampa Bay Rays AWAY",
+          "line": null,
+          "odds": 143,
+          "model_prob": 0.47200000000000003,
+          "edge": 0.1462,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME+MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 264,
+      "implied_prob": 0.2747,
+      "model_prob": 0.3791,
+      "edge": 0.1043,
+      "legs": [
+        {
+          "leg_id": "MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+          "game_id": "Detroit_Tigers-at-Chicago_Cubs",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago Cubs HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.636,
+          "edge": 0.21489999999999998,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+          "game_id": "Pittsburgh_Pirates-at-New_York_Yankees",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "New York Yankees HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.596,
+          "edge": 0.1374,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME+MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 354,
+      "implied_prob": 0.2203,
+      "model_prob": 0.2989,
+      "edge": 0.0787,
+      "legs": [
+        {
+          "leg_id": "MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+          "game_id": "Detroit_Tigers-at-Chicago_Cubs",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago Cubs HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.636,
+          "edge": 0.21489999999999998,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+          "game_id": "Baltimore_Orioles-at-Boston_Red_Sox",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Baltimore Orioles AWAY",
+          "line": null,
+          "odds": 138,
+          "model_prob": 0.47,
+          "edge": 0.1191,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME+MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 415,
+      "implied_prob": 0.1942,
+      "model_prob": 0.2686,
+      "edge": 0.0744,
+      "legs": [
+        {
+          "leg_id": "MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+          "game_id": "Minnesota_Twins-at-Cleveland_Guardians",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Cleveland Guardians HOME",
+          "line": null,
+          "odds": 112,
+          "model_prob": 0.569,
+          "edge": 0.2066,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+          "game_id": "Tampa_Bay_Rays-at-Toronto_Blue_Jays",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Tampa Bay Rays AWAY",
+          "line": null,
+          "odds": 143,
+          "model_prob": 0.47200000000000003,
+          "edge": 0.1462,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME+MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 305,
+      "implied_prob": 0.2469,
+      "model_prob": 0.3391,
+      "edge": 0.0922,
+      "legs": [
+        {
+          "leg_id": "MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+          "game_id": "Minnesota_Twins-at-Cleveland_Guardians",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Cleveland Guardians HOME",
+          "line": null,
+          "odds": 112,
+          "model_prob": 0.569,
+          "edge": 0.2066,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+          "game_id": "Pittsburgh_Pirates-at-New_York_Yankees",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "New York Yankees HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.596,
+          "edge": 0.1374,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME+MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 405,
+      "implied_prob": 0.198,
+      "model_prob": 0.2674,
+      "edge": 0.0694,
+      "legs": [
+        {
+          "leg_id": "MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+          "game_id": "Minnesota_Twins-at-Cleveland_Guardians",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Cleveland Guardians HOME",
+          "line": null,
+          "odds": 112,
+          "model_prob": 0.569,
+          "edge": 0.2066,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+          "game_id": "Baltimore_Orioles-at-Boston_Red_Sox",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Baltimore Orioles AWAY",
+          "line": null,
+          "odds": 138,
+          "model_prob": 0.47,
+          "edge": 0.1191,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY+MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 364,
+      "implied_prob": 0.2155,
+      "model_prob": 0.2813,
+      "edge": 0.0658,
+      "legs": [
+        {
+          "leg_id": "MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+          "game_id": "Tampa_Bay_Rays-at-Toronto_Blue_Jays",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Tampa Bay Rays AWAY",
+          "line": null,
+          "odds": 143,
+          "model_prob": 0.47200000000000003,
+          "edge": 0.1462,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+          "game_id": "Pittsburgh_Pirates-at-New_York_Yankees",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "New York Yankees HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.596,
+          "edge": 0.1374,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY+MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 478,
+      "implied_prob": 0.173,
+      "model_prob": 0.2218,
+      "edge": 0.0488,
+      "legs": [
+        {
+          "leg_id": "MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+          "game_id": "Tampa_Bay_Rays-at-Toronto_Blue_Jays",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Tampa Bay Rays AWAY",
+          "line": null,
+          "odds": 143,
+          "model_prob": 0.47200000000000003,
+          "edge": 0.1462,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+          "game_id": "Baltimore_Orioles-at-Boston_Red_Sox",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Baltimore Orioles AWAY",
+          "line": null,
+          "odds": 138,
+          "model_prob": 0.47,
+          "edge": 0.1191,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME+MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 2,
+      "odds": 354,
+      "implied_prob": 0.2203,
+      "model_prob": 0.2801,
+      "edge": 0.0599,
+      "legs": [
+        {
+          "leg_id": "MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+          "game_id": "Pittsburgh_Pirates-at-New_York_Yankees",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "New York Yankees HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.596,
+          "edge": 0.1374,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+          "game_id": "Baltimore_Orioles-at-Boston_Red_Sox",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Baltimore Orioles AWAY",
+          "line": null,
+          "odds": 138,
+          "model_prob": 0.47,
+          "edge": 0.1191,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME+MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 892,
+      "implied_prob": 0.1008,
+      "model_prob": 0.1904,
+      "edge": 0.0895,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+          "game_id": "Detroit_Tigers-at-Chicago_Cubs",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago Cubs HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.636,
+          "edge": 0.21489999999999998,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+          "game_id": "Minnesota_Twins-at-Cleveland_Guardians",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Cleveland Guardians HOME",
+          "line": null,
+          "odds": 112,
+          "model_prob": 0.569,
+          "edge": 0.2066,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME+MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 1037,
+      "implied_prob": 0.088,
+      "model_prob": 0.1579,
+      "edge": 0.07,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+          "game_id": "Detroit_Tigers-at-Chicago_Cubs",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago Cubs HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.636,
+          "edge": 0.21489999999999998,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+          "game_id": "Tampa_Bay_Rays-at-Toronto_Blue_Jays",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Tampa Bay Rays AWAY",
+          "line": null,
+          "odds": 143,
+          "model_prob": 0.47200000000000003,
+          "edge": 0.1462,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME+MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 793,
+      "implied_prob": 0.112,
+      "model_prob": 0.1994,
+      "edge": 0.0874,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+          "game_id": "Detroit_Tigers-at-Chicago_Cubs",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago Cubs HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.636,
+          "edge": 0.21489999999999998,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+          "game_id": "Pittsburgh_Pirates-at-New_York_Yankees",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "New York Yankees HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.596,
+          "edge": 0.1374,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME+MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 1013,
+      "implied_prob": 0.0898,
+      "model_prob": 0.1572,
+      "edge": 0.0674,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Detroit_Tigers-at-Chicago_Cubs-moneyline-Chicago_Cubs_HOME",
+          "game_id": "Detroit_Tigers-at-Chicago_Cubs",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago Cubs HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.636,
+          "edge": 0.21489999999999998,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+          "game_id": "Baltimore_Orioles-at-Boston_Red_Sox",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Baltimore Orioles AWAY",
+          "line": null,
+          "odds": 138,
+          "model_prob": 0.47,
+          "edge": 0.1191,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME+MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 1162,
+      "implied_prob": 0.0792,
+      "model_prob": 0.1413,
+      "edge": 0.062,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+          "game_id": "Minnesota_Twins-at-Cleveland_Guardians",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Cleveland Guardians HOME",
+          "line": null,
+          "odds": 112,
+          "model_prob": 0.569,
+          "edge": 0.2066,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+          "game_id": "Tampa_Bay_Rays-at-Toronto_Blue_Jays",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Tampa Bay Rays AWAY",
+          "line": null,
+          "odds": 143,
+          "model_prob": 0.47200000000000003,
+          "edge": 0.1462,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME+MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 892,
+      "implied_prob": 0.1008,
+      "model_prob": 0.1784,
+      "edge": 0.0776,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+          "game_id": "Minnesota_Twins-at-Cleveland_Guardians",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Cleveland Guardians HOME",
+          "line": null,
+          "odds": 112,
+          "model_prob": 0.569,
+          "edge": 0.2066,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+          "game_id": "Pittsburgh_Pirates-at-New_York_Yankees",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "New York Yankees HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.596,
+          "edge": 0.1374,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME+MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 1136,
+      "implied_prob": 0.0809,
+      "model_prob": 0.1407,
+      "edge": 0.0598,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Minnesota_Twins-at-Cleveland_Guardians-moneyline-Cleveland_Guardians_HOME",
+          "game_id": "Minnesota_Twins-at-Cleveland_Guardians",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Cleveland Guardians HOME",
+          "line": null,
+          "odds": 112,
+          "model_prob": 0.569,
+          "edge": 0.2066,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+          "game_id": "Baltimore_Orioles-at-Boston_Red_Sox",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Baltimore Orioles AWAY",
+          "line": null,
+          "odds": 138,
+          "model_prob": 0.47,
+          "edge": 0.1191,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY+MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 1037,
+      "implied_prob": 0.088,
+      "model_prob": 0.148,
+      "edge": 0.06,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+          "game_id": "Tampa_Bay_Rays-at-Toronto_Blue_Jays",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Tampa Bay Rays AWAY",
+          "line": null,
+          "odds": 143,
+          "model_prob": 0.47200000000000003,
+          "edge": 0.1462,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+          "game_id": "Pittsburgh_Pirates-at-New_York_Yankees",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "New York Yankees HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.596,
+          "edge": 0.1374,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY+MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 1317,
+      "implied_prob": 0.0706,
+      "model_prob": 0.1167,
+      "edge": 0.0461,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Tampa_Bay_Rays-at-Toronto_Blue_Jays-moneyline-Tampa_Bay_Rays_AWAY",
+          "game_id": "Tampa_Bay_Rays-at-Toronto_Blue_Jays",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Tampa Bay Rays AWAY",
+          "line": null,
+          "odds": 143,
+          "model_prob": 0.47200000000000003,
+          "edge": 0.1462,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+          "game_id": "Baltimore_Orioles-at-Boston_Red_Sox",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Baltimore Orioles AWAY",
+          "line": null,
+          "odds": 138,
+          "model_prob": 0.47,
+          "edge": 0.1191,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
+    },
+    {
+      "bet_id": "parlay:MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY+MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME+MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+      "bet_category": "combination",
+      "bet_type": "parlay",
+      "num_legs": 3,
+      "odds": 1013,
+      "implied_prob": 0.0898,
+      "model_prob": 0.1473,
+      "edge": 0.0575,
+      "legs": [
+        {
+          "leg_id": "MLB-Chicago_White_Sox-at-Texas_Rangers-moneyline-Chicago_White_Sox_AWAY",
+          "game_id": "Chicago_White_Sox-at-Texas_Rangers",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Chicago White Sox AWAY",
+          "line": null,
+          "odds": 145,
+          "model_prob": 0.526,
+          "edge": 0.2887,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Pittsburgh_Pirates-at-New_York_Yankees-moneyline-New_York_Yankees_HOME",
+          "game_id": "Pittsburgh_Pirates-at-New_York_Yankees",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "New York Yankees HOME",
+          "line": null,
+          "odds": -110,
+          "model_prob": 0.596,
+          "edge": 0.1374,
+          "status": "pending"
+        },
+        {
+          "leg_id": "MLB-Baltimore_Orioles-at-Boston_Red_Sox-moneyline-Baltimore_Orioles_AWAY",
+          "game_id": "Baltimore_Orioles-at-Boston_Red_Sox",
+          "league": "MLB",
+          "market": "moneyline",
+          "selection": "Baltimore Orioles AWAY",
+          "line": null,
+          "odds": 138,
+          "model_prob": 0.47,
+          "edge": 0.1191,
+          "status": "pending"
+        }
+      ],
+      "status": "pending"
     }
   ]
 }
