@@ -89,6 +89,43 @@ def update_results(game_results):
     print("Results updated.")
 
 
+def sync_live_results(picks_data, leg_results):
+    """
+    Live-sync layer for the categorised picks.json produced by the generator.
+
+    `leg_results` maps an individual leg/pick identifier to its resolved status
+    ("won" | "lost" | "push" | "pending"). Each single-game pick AND each leg
+    inside a parlay/teaser is updated INDEPENDENTLY from the same feed, so a
+    single leg can resolve before the rest of its combination. After a leg is
+    updated the combination's rolled-up status is recomputed (all legs must win;
+    pushed legs drop out) via bet_types.update_leg_status.
+
+    This extends — it does not replace — update_results(), which still settles the
+    single-game CSV bet log. Returns the mutated picks_data.
+    """
+    from bet_types import update_leg_status, settle_combination
+
+    # 1. Single-game picks (real-time, unchanged tracking semantics).
+    for single in picks_data.get("picks", []):
+        key = single.get("bet_id") or single.get("pick_id")
+        if key in leg_results:
+            single["status"] = leg_results[key]
+
+    # 2. Individual legs inside combinations, each synced independently, then
+    #    the parlay/teaser outcome is rolled up from its legs.
+    for combo in picks_data.get("combinations", []):
+        touched = False
+        for leg in combo.get("legs", []):
+            lid = leg.get("leg_id")
+            if lid in leg_results:
+                update_leg_status(combo, lid, leg_results[lid])
+                touched = True
+        if not touched:
+            settle_combination(combo)
+
+    return picks_data
+
+
 def get_performance_stats():
     """Return ROI/CLV summary as a dict (for picks.json)."""
     df = load_log()
