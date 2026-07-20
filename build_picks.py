@@ -10,11 +10,31 @@ No placeholder probabilities are used. If no real signal exists for a
 market, the pick is tagged "no_model" and excluded from staking.
 """
 import json
+import os
+import sys
 import datetime
 from kelly import recommended_stake
 
+# bet_types lives in model/; make it importable when run from the repo root.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "model"))
+from bet_types import generate_bets, normalize_market  # noqa: E402
+
 SCHEMA_VERSION = "2.0.0"
 DEFAULT_MIN_EDGE = 0.05
+
+
+def _bet_type_config():
+    """Bet-type generation settings, overridable via env vars."""
+    mode = (os.environ.get("BET_TYPES", "both") or "both").strip().lower()
+    if mode not in ("individual", "combined", "both"):
+        mode = "both"
+    return {
+        "mode": mode,
+        "combo_edge_threshold": float(os.environ.get("COMBO_EDGE_THRESHOLD", DEFAULT_MIN_EDGE)),
+        "min_legs": int(os.environ.get("COMBO_MIN_LEGS", "2")),
+        "max_legs": int(os.environ.get("COMBO_MAX_LEGS", "3")),
+        "teaser_points": float(os.environ.get("TEASER_POINTS", "6.0")),
+    }
 EDGE_RULES = {
     "MLB": {"moneyline": 0.035, "total": 0.040, "player_prop": 0.050},
     "NFL": {"spread": 0.045, "side": 0.045, "total": 0.040, "player_prop": 0.060},
@@ -191,23 +211,52 @@ def main():
 
     picks = schedule_rows + signal_picks
 
+    # Tag every pick with its bet category/type so the frontend can group them.
+    for p in picks:
+        p["bet_category"] = "single"
+        p["bet_type"] = normalize_market(p.get("market_type"))
+        p.setdefault("status", "pending")
+
     tier_counts = {}
     for p in picks:
         tier_counts[p["confidence_tier"]] = tier_counts.get(p["confidence_tier"], 0) + 1
+
+    # Build Singles vs Combinations. Signal picks carry a numeric `edge_pct`
+    # (a fraction); schedule/info rows have edge None and are ignored for combos.
+    cfg = _bet_type_config()
+    generic_picks = [{
+        "game_id": p.get("event_id"),
+        "league": p.get("league"),
+        "market": p.get("market_type"),
+        "selection": p.get("selection"),
+        "line": p.get("line"),
+        "odds": p.get("odds"),
+        "model_prob": p.get("model_prob"),
+        "edge": p.get("edge_pct"),
+        "pick_id": p.get("pick_id"),
+        "status": "pending",
+    } for p in signal_picks]
+    generated = generate_bets(generic_picks, cfg)
+
+    output_picks = picks if cfg["mode"] in ("individual", "both") else []
 
     output = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "default_min_edge_threshold": DEFAULT_MIN_EDGE,
         "edge_rules": EDGE_RULES,
+        "bet_type_mode": cfg["mode"],
+        "combo_edge_threshold": cfg["combo_edge_threshold"],
         "tier_counts": tier_counts,
-        "picks": picks,
+        "picks": output_picks,
+        "combinations": generated["combinations"],
     }
 
     with open("data/picks.json", "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"Wrote {len(picks)} total picks to data/picks.json")
+    print(f"Wrote {len(output_picks)} singles and {len(generated['combinations'])} "
+          f"combinations to data/picks.json (mode={cfg['mode']})")
     print(f"Tier breakdown: {tier_counts}")
 
 

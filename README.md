@@ -96,3 +96,64 @@ This version replaces the placeholder probability logic entirely. `build_picks.p
 
 ### Known limitation
 - MoneyLine's `/v1/injuries` endpoint returned 404 in testing — the exact path needs to be confirmed from your MoneyLine dashboard once you have season-specific NFL access. Until fixed, NFL injury exclusion has no effect (MLB lineup data still works via the free MLB Stats API).
+
+## v2.1 — Bet types: Singles and Combinations
+
+The generator now produces two categories of bets, controlled by a configurable
+**bet-type mode**:
+
+1. **Singles** — one standalone pick per market: `moneyline`, `spread`, `total`.
+2. **Combinations** — `parlay` and `teaser` bets built by combining individual
+   legs that clear an edge threshold. Parlay odds are the product of the legs'
+   decimal odds; teasers apply only to point markets (spread/total) and move each
+   leg's line in the bettor's favour by `TEASER_POINTS`.
+
+### Configuration
+Set these as env vars / GitHub Actions repo variables (all optional — sensible
+defaults shown). They are read in `model/config.py` (and mirrored in
+`build_picks.py`):
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `BET_TYPES` | `both` | `individual` (Singles only), `combined` (Combinations only), or `both` |
+| `COMBO_EDGE_THRESHOLD` | `MIN_EDGE_PCT/100` (0.03) | Min edge (fraction) a leg needs to be combined into a parlay/teaser |
+| `COMBO_MIN_LEGS` | `2` | Minimum legs per combination |
+| `COMBO_MAX_LEGS` | `3` | Maximum legs per combination |
+| `TEASER_POINTS` | `6.0` | Points added to each teaser leg's line |
+
+The core logic lives in `model/bet_types.py` (pure standard library) and is used
+by both `model/daily_runner.py` and `build_picks.py`.
+
+### Data model
+`data/picks.json` now includes `bet_type_mode`, a `picks` array (Singles) and a
+`combinations` array. Every bet carries:
+
+- `bet_category`: `"single"` or `"combination"`
+- `bet_type`: `moneyline` / `spread` / `total` / `parlay` / `teaser`
+- `status`: `pending` / `won` / `lost` / `push`
+
+Each combination stores its constituent `legs`, and **every leg keeps its own
+identifiers** (`leg_id`, `game_id`, `market`, `selection`, `odds`, `edge`,
+`status`). A leg can therefore be settled/traced individually while the parlay's
+rolled-up `status` is recomputed from its legs — **all legs must win** for the
+parlay to win; a pushed leg drops out of the combination.
+
+### Dashboard
+The app (`app/index.html`) groups bets under two sections, **Singles** and
+**Combinations**. Each combination is expandable to reveal its legs, showing each
+leg's individual live status alongside the overall parlay/teaser status. When
+`BET_TYPES=combined` the Singles section is hidden; when `individual`, the
+Combinations section is hidden.
+
+### Live sync
+The dashboard re-fetches `data/picks.json` on an interval so single-game picks
+and each individual parlay/teaser leg refresh in near real time. On the backend,
+`model/tracker.py` gains `sync_live_results(picks_data, leg_results)`, which
+updates each single AND each combination leg independently from the results feed
+and re-settles the rolled-up parlay/teaser outcome — without changing the
+existing single-game CSV settlement in `update_results()`.
+
+### Tests
+`python model/test_bet_types.py` covers config parsing, Singles-vs-Combinations
+generation under an edge threshold, individual leg trackability within a
+combination, and the categorisation of dashboard output.
