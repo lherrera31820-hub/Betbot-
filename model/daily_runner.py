@@ -28,9 +28,12 @@ from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
 
+from collections import defaultdict
+
 from config import (BANKROLL, MIN_PRIOR_GAMES, ELO_K, ELO_HFA, KELLY_FRACTION)
 from features import (fetch_pitcher_stats, build_feature_vector, LEAGUE_AVG,
                        get_park_factor, get_umpire_factor)
+from features_phase2 import build_phase2_features, compute_strength_of_schedule
 from model import (train_models, load_models, predict_proba_ensemble,
                    EloTracker, combined_probability, heuristic_probability,
                    FEATURE_COLS)
@@ -49,20 +52,82 @@ RETRAIN_TRACKER  = 'last_retrain.txt'
 REPO_ROOT  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PICKS_PATH = os.path.join(REPO_ROOT, 'data', 'picks.json')
 
+# ---- Phase 2 feature inputs ----
+SCHEMA_VERSION     = "1.1.0"
+RAW_SCHEDULE_PATH  = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                  'raw_schedule_2026.json')
+
+
+def build_team_history(path=RAW_SCHEDULE_PATH):
+    """
+    Derive per-team game logs and win% from the committed historical schedule.
+
+    Returns (games_by_team, win_pct, sos_by_team):
+      games_by_team: {team_name: [{opponent, date, point_diff, win, result}, ...]}
+                     sorted oldest-to-newest (as build_phase2_features expects).
+      win_pct:       {team_name: raw win pct}.
+      sos_by_team:   {team_name: first-order strength of schedule}.
+    If the schedule file is missing/unreadable, returns empty dicts so the
+    Phase 2 functions fall back to their own neutral defaults (0.500).
+    """
+    try:
+        with open(path) as f:
+            raw = json.load(f)
+    except (OSError, ValueError):
+        return {}, {}, {}
+
+    games_by_team = defaultdict(list)
+    wins, total = defaultdict(int), defaultdict(int)
+    for rng in raw.get('ranges', []):
+        for day in rng.get('data', {}).get('dates', []):
+            for g in day.get('games', []):
+                if g.get('gameType') != 'R':
+                    continue
+                if g.get('status', {}).get('abstractGameState') != 'Final':
+                    continue
+                home, away = g['teams']['home'], g['teams']['away']
+                hn, an = home['team']['name'], away['team']['name']
+                hs, as_ = home.get('score'), away.get('score')
+                if hs is None or as_ is None:
+                    continue
+                date = g.get('officialDate') or g.get('gameDate')
+                home_win = hs > as_
+                games_by_team[hn].append({'opponent': an, 'date': date,
+                                          'point_diff': hs - as_, 'win': home_win,
+                                          'result': 'W' if home_win else 'L'})
+                games_by_team[an].append({'opponent': hn, 'date': date,
+                                          'point_diff': as_ - hs, 'win': not home_win,
+                                          'result': 'W' if not home_win else 'L'})
+                for t, w in ((hn, home_win), (an, not home_win)):
+                    total[t] += 1
+                    wins[t] += 1 if w else 0
+
+    for t in games_by_team:
+        games_by_team[t].sort(key=lambda x: x['date'])
+    win_pct = {t: round(wins[t] / total[t], 4) if total[t] else 0.500 for t in total}
+    sos_by_team = {t: round(compute_strength_of_schedule(t, games_by_team[t], win_pct), 4)
+                   for t in games_by_team}
+    return dict(games_by_team), win_pct, sos_by_team
+
 
 def write_picks_json(ev_bets, today_str, state):
     """Write today's +EV picks, bankroll state, and performance stats to data/picks.json."""
     output = {
-        "status":       "ok",
-        "generated_at": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-        "date_display": today_str,
-        "sport":        "MLB",
-        "bankroll":     round(state.get("bankroll", BANKROLL), 2),
-        "performance":  get_performance_stats(),
+        "status":         "ok",
+        "schema_version": SCHEMA_VERSION,
+        "generated_at":   datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+        "date_display":   today_str,
+        "sport":          "MLB",
+        "bankroll":       round(state.get("bankroll", BANKROLL), 2),
+        "performance":    get_performance_stats(),
         "picks": [],
     }
+
+    # Phase 2 feature inputs derived from the committed historical schedule.
+    games_by_team, win_pct, sos_by_team = build_team_history()
+
     for b in ev_bets:
-        output["picks"].append({
+        pick = {
             "home_team":    b["home_team"],
             "away_team":    b["away_team"],
             "bet_side":     b["bet_side"],
@@ -77,7 +142,22 @@ def write_picks_json(ev_bets, today_str, state):
             "away_pitcher": b.get("away_pitcher", ""),
             "venue":        b.get("venue", ""),
             "tier":         "high" if b["edge_pct"] >= 5 else "medium" if b["edge_pct"] >= 3.5 else "low",
-        })
+        }
+
+        # Phase 2 features are computed for the team being bet on vs its opponent.
+        team = b["bet_team"]
+        opponent = b["away_team"] if team == b["home_team"] else b["home_team"]
+        phase2 = build_phase2_features(
+            team=team,
+            opponent=opponent,
+            team_games=games_by_team.get(team, []),
+            opponent_games=games_by_team.get(opponent, []),
+            all_team_win_pct=win_pct,
+            sos_by_team=sos_by_team,
+            model_prob=b["model_prob"] / 100.0,  # model_prob is stored as a percentage
+        )
+        pick.update(phase2)
+        output["picks"].append(pick)
 
     os.makedirs(os.path.dirname(PICKS_PATH), exist_ok=True)
     with open(PICKS_PATH, "w") as f:
