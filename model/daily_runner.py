@@ -28,7 +28,9 @@ from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
 
-from config import (BANKROLL, MIN_PRIOR_GAMES, ELO_K, ELO_HFA, KELLY_FRACTION)
+from config import (BANKROLL, MIN_PRIOR_GAMES, ELO_K, ELO_HFA, KELLY_FRACTION,
+                    bet_type_config)
+from bet_types import generate_bets
 from features import (fetch_pitcher_stats, build_feature_vector, LEAGUE_AVG,
                        get_park_factor, get_umpire_factor)
 from model import (train_models, load_models, predict_proba_ensemble,
@@ -50,39 +52,75 @@ REPO_ROOT  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PICKS_PATH = os.path.join(REPO_ROOT, 'data', 'picks.json')
 
 
-def write_picks_json(ev_bets, today_str, state):
-    """Write today's +EV picks, bankroll state, and performance stats to data/picks.json."""
-    output = {
-        "status":       "ok",
-        "generated_at": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-        "date_display": today_str,
-        "sport":        "MLB",
-        "bankroll":     round(state.get("bankroll", BANKROLL), 2),
-        "performance":  get_performance_stats(),
-        "picks": [],
+def _ev_bet_to_pick(b):
+    """Flatten one +EV moneyline bet into the generic pick/leg shape."""
+    game_id = f"{b['away_team']}-at-{b['home_team']}".replace(" ", "_")
+    return {
+        "game_id":     game_id,
+        "event_id":    game_id,
+        "league":      "MLB",
+        "market":      "moneyline",
+        "selection":   " ".join(x for x in (b.get("bet_team"), b.get("bet_side")) if x),
+        "line":        None,
+        "odds":        b["best_odds"],
+        "model_prob":  (b["model_prob"] / 100.0) if b.get("model_prob") is not None else None,
+        "edge":        (b["edge_pct"] / 100.0) if b.get("edge_pct") is not None else None,
+        "status":      "pending",
     }
-    for b in ev_bets:
-        output["picks"].append({
-            "home_team":    b["home_team"],
-            "away_team":    b["away_team"],
-            "bet_side":     b["bet_side"],
-            "bet_team":     b["bet_team"],
-            "edge_pct":     b["edge_pct"],
-            "model_prob":   b["model_prob"],
-            "market_prob":  b["market_prob"],
-            "best_odds":    b["best_odds"],
-            "best_book":    b["best_book"],
-            "kelly_bet":    b["kelly_bet_$"],
-            "home_pitcher": b.get("home_pitcher", ""),
-            "away_pitcher": b.get("away_pitcher", ""),
-            "venue":        b.get("venue", ""),
-            "tier":         "high" if b["edge_pct"] >= 5 else "medium" if b["edge_pct"] >= 3.5 else "low",
-        })
+
+
+def write_picks_json(ev_bets, today_str, state):
+    """Write today's +EV picks, bankroll state, and performance stats to data/picks.json.
+
+    Picks are categorised into Singles (moneyline/spread/total) and Combinations
+    (parlays/teasers) according to the configured bet-type mode. Each single keeps
+    its original display fields; each combination carries its constituent legs with
+    independent per-leg status so legs remain individually trackable.
+    """
+    cfg = bet_type_config()
+    generic_picks = [_ev_bet_to_pick(b) for b in ev_bets]
+    generated = generate_bets(generic_picks, cfg)
+
+    output = {
+        "status":        "ok",
+        "generated_at":  datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+        "date_display":  today_str,
+        "sport":         "MLB",
+        "bankroll":      round(state.get("bankroll", BANKROLL), 2),
+        "performance":   get_performance_stats(),
+        "bet_type_mode": cfg["mode"],
+        "picks": [],
+        "combinations": generated["combinations"],
+    }
+
+    include_singles = cfg["mode"] in ("individual", "both")
+    if include_singles:
+        for b in ev_bets:
+            output["picks"].append({
+                "home_team":    b["home_team"],
+                "away_team":    b["away_team"],
+                "bet_side":     b["bet_side"],
+                "bet_team":     b["bet_team"],
+                "bet_category": "single",
+                "bet_type":     "moneyline",
+                "status":       "pending",
+                "edge_pct":     b["edge_pct"],
+                "model_prob":   b["model_prob"],
+                "market_prob":  b["market_prob"],
+                "best_odds":    b["best_odds"],
+                "best_book":    b["best_book"],
+                "kelly_bet":    b["kelly_bet_$"],
+                "home_pitcher": b.get("home_pitcher", ""),
+                "away_pitcher": b.get("away_pitcher", ""),
+                "venue":        b.get("venue", ""),
+                "tier":         "high" if b["edge_pct"] >= 5 else "medium" if b["edge_pct"] >= 3.5 else "low",
+            })
 
     os.makedirs(os.path.dirname(PICKS_PATH), exist_ok=True)
     with open(PICKS_PATH, "w") as f:
         json.dump(output, f, indent=2)
-    print(f"picks.json written with {len(ev_bets)} picks -> {PICKS_PATH}")
+    print(f"picks.json written: {len(output['picks'])} singles, "
+          f"{len(output['combinations'])} combinations (mode={cfg['mode']}) -> {PICKS_PATH}")
 
 
 def write_no_data(reason):
