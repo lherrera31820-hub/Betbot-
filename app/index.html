@@ -188,11 +188,11 @@
       }
     }
 
-    function renderCombos(combos) {
+    function renderCombos(combos, mode) {
       const section = $('combosSection');
       const wrap = $('combos');
       wrap.innerHTML = '';
-      if (!Array.isArray(combos) || combos.length === 0) {
+      if (mode === 'individual' || !Array.isArray(combos) || combos.length === 0) {
         section.style.display = 'none';
         return;
       }
@@ -207,13 +207,26 @@
             </div>
             ${statusBadge(leg.status)}
           </div>`).join('');
+        const edgePct = typeof c.edge === 'number' ? c.edge * 100 : null;
+        const edgeClass = edgePct == null ? 'e-low' : edgePct >= 5 ? 'e-high' : edgePct >= 2 ? 'e-med' : 'e-low';
+        const summary = legs.map((leg) => leg.selection).filter(Boolean).join(' + ');
         const card = document.createElement('div');
         card.className = 'card combo';
         card.innerHTML = `
           <div class="row">
             <div><div class="match">${escapeHtml((c.bet_type || 'parlay').toUpperCase())} · ${c.num_legs || legs.length} legs</div>
-            <div class="tiny">${fmtOdds(c.odds)}${c.teaser_points ? ' · +' + c.teaser_points + ' pts' : ''}${typeof c.edge === 'number' ? ' · ' + pct(c.edge * 100) + ' edge' : ''}</div></div>
+            <div class="tiny">${escapeHtml(summary) || '—'}</div></div>
+            <div class="edge ${edgeClass}">${edgePct == null ? '—' : pct(edgePct)} edge</div>
+          </div>
+          <div class="row" style="margin-top:8px;align-items:center">
+            <span class="badge-type">${escapeHtml(c.bet_category || 'combination')}${c.teaser_points ? ' · +' + escapeHtml(c.teaser_points) + ' pts' : ''}</span>
             ${statusBadge(c.status)}
+          </div>
+          <div class="grid">
+            <div class="mini"><div class="lab">Combined odds</div><div class="val">${fmtOdds(c.odds)}</div></div>
+            <div class="mini"><div class="lab">Implied</div><div class="val">${asProb(c.implied_prob)}</div></div>
+            <div class="mini"><div class="lab">Model</div><div class="val">${asProb(c.model_prob)}</div></div>
+            <div class="mini"><div class="lab">Edge</div><div class="val">${edgePct == null ? '—' : pct(edgePct)}</div></div>
           </div>
           <details open>
             <summary>Legs (${legs.length}) — each tracked individually</summary>
@@ -253,7 +266,7 @@
         const mode = data.bet_type_mode || 'both';
         $('singlesSection').style.display = (mode === 'combined') ? 'none' : 'block';
         renderPicks(data.picks);
-        renderCombos(data.combinations);
+        renderCombos(data.combinations, mode);
       } catch (err) {
         renderDemo('No picks yet — demo mode. (' + err.message + ')');
       }
